@@ -1,6 +1,10 @@
 #include "doctest.h"
 #include <BTrack.h>
 
+#ifdef _WIN32
+    #include <cstdlib>
+#endif
+
 //======================================================================
 //==================== CHECKING INITIALISATION =========================
 //======================================================================
@@ -94,7 +98,11 @@ TEST_SUITE("processingSimpleValues")
         
         for (int i = 0;i < numSamples;i++)
         {
-            odfSamples.push_back(random() % 1000);
+            #ifdef _WIN32
+                odfSamples.push_back(rand() % 1000);
+            #else 
+                odfSamples.push_back(random() % 1000);
+            #endif
         }
         
         for (int i = 0;i < numSamples;i++)
@@ -140,7 +148,11 @@ TEST_SUITE("processingSimpleValues")
         
         for (int i = 0;i < numSamples;i++)
         {
-            odfSamples.push_back(-1.0*(random() % 1000));
+            #ifdef _WIN32
+                odfSamples.push_back(-1.0 * (rand() % 1000));
+            #else 
+                odfSamples.push_back(-1.0 * (random() % 1000));
+            #endif
         }
         
         for (int i = 0;i < numSamples;i++)
