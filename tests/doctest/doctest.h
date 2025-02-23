@@ -2762,6 +2762,7 @@ DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_BEGIN
 
 #include <sys/time.h>
 #include <unistd.h>
+#include <cstdlib>
 
 #endif // DOCTEST_PLATFORM_WINDOWS
 
@@ -4029,8 +4030,9 @@ namespace {
         static bool             isSet;
         static struct sigaction oldSigActions[DOCTEST_COUNTOF(signalDefs)];
         static stack_t          oldSigStack;
-        static char             altStackMem[4 * SIGSTKSZ];
-
+        // static char             altStackMem[4 * SIGSTKSZ];
+        static char* altStackMem;
+     
         static void handleSignal(int sig) {
             const char* name = "<unknown signal>";
             for(std::size_t i = 0; i < DOCTEST_COUNTOF(signalDefs); ++i) {
@@ -4046,6 +4048,7 @@ namespace {
         }
 
         FatalConditionHandler() {
+            altStackMem = (char*)malloc(4 * SIGSTKSZ); 
             isSet = true;
             stack_t sigStack;
             sigStack.ss_sp    = altStackMem;
@@ -4070,6 +4073,11 @@ namespace {
                 // Return the old stack
                 sigaltstack(&oldSigStack, nullptr);
                 isSet = false;
+
+                if (altStackMem) {
+                    free(altStackMem);  // Don't forget to free it
+                }
+                
             }
         }
     };
@@ -4077,7 +4085,8 @@ namespace {
     bool             FatalConditionHandler::isSet                                      = false;
     struct sigaction FatalConditionHandler::oldSigActions[DOCTEST_COUNTOF(signalDefs)] = {};
     stack_t          FatalConditionHandler::oldSigStack                                = {};
-    char             FatalConditionHandler::altStackMem[]                              = {};
+    // char             FatalConditionHandler::altStackMem[]                              = {};
+    char* FatalConditionHandler::altStackMem = nullptr;
 
 #endif // DOCTEST_PLATFORM_WINDOWS
 #endif // DOCTEST_CONFIG_POSIX_SIGNALS || DOCTEST_CONFIG_WINDOWS_SEH
