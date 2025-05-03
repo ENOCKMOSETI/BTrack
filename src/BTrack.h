@@ -43,19 +43,19 @@ class BTrack {
 public:
     
     //=======================================================================
-    /** Constructor assuming hop size of 512 and frame size of 1024 */
+    /** Constructor assuming hop size of 512 and frame size of 1024 and sampleRate of 44100 */
     BTrack();
     
     /** Constructor assuming frame size will be double the hopSize
      * @param hopSize the hop size in audio samples
      */
-    BTrack (int hopSize);
+    BTrack (int hopSize, double sampleRate);
     
     /** Constructor taking both hopSize and frameSize
      * @param hopSize the hop size in audio samples
      * @param frameSize the frame size in audio samples
      */
-    BTrack (int hopSize, int frameSize);
+    BTrack (int hopSize, int frameSize, double sampleRate);
     
     /** Destructor */
     ~BTrack();
@@ -116,8 +116,15 @@ public:
      * @returns a beat time in seconds
      */
     static double getBeatTimeInSeconds (long frameNumber, int hopSize, int fs);
+
+    // Setters and getters for the sample rate
+    void setSampleRate(double sampleRate);
+    double getSampleRate();
     
 private:
+
+    // declare sample rate variable
+    double sampleRate;                  /**< the sample rate in Hz */
     
     /** Initialises the algorithm, setting internal parameters and creating weighting vectors 
      * @param hopSize the hop size in audio samples

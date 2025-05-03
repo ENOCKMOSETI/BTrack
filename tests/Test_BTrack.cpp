@@ -21,7 +21,7 @@ TEST_SUITE ("checkingInitialisation")
     //======================================================================
     TEST_CASE("constructorWithHopSize")
     {
-        BTrack b(1024);
+        BTrack b(1024, 44100);
         
         CHECK_EQ (b.getHopSize(), 1024);
     }
@@ -45,7 +45,7 @@ TEST_SUITE("processingSimpleValues")
     //======================================================================
     TEST_CASE ("processZeroValuedOnsetDetectionFunctionSamples")
     {
-        BTrack b(512);
+        BTrack b(512, 44100);
         
         long numSamples = 20000;
         
@@ -86,7 +86,7 @@ TEST_SUITE("processingSimpleValues")
     //======================================================================
     TEST_CASE ("processRandomOnsetDetectionFunctionSamples")
     {
-        BTrack b(512);
+        BTrack b(512, 44100);
         
         long numSamples = 20000;
         
@@ -136,7 +136,7 @@ TEST_SUITE("processingSimpleValues")
     //======================================================================
     TEST_CASE ("processNegativeOnsetDetectionFunctionSamples")
     {
-        BTrack b(512);
+        BTrack b(512, 44100);
         
         long numSamples = 20000;
         
@@ -186,7 +186,7 @@ TEST_SUITE("processingSimpleValues")
     //======================================================================
     TEST_CASE ("processSeriesOfDeltaFunctions")
     {
-        BTrack b(512);
+        BTrack b(512, 44100);
         
         long numSamples = 20000;
         int beatPeriod = 43;
