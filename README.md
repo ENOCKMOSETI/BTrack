@@ -144,7 +144,19 @@ To install libsamplerate on linux, download the tar.xz file from the [releases s
 
 Windows
 --------
-Since we need the libsamplerate library for BTrack, for windows, you can get it by downloading the zip folder for youe Windows version [here](https://github.com/libsndfile/libsamplerate/releases).
+For windows, donwload the tar.xz file [here](https://github.com/libsndfile/libsamplerate/releases) and unzip it in the libs directory in BTrack. The directory structure should look something like this:
+```
+libsamplerate-0.2.2-win64
+├───bin
+├───include
+├───lib
+│   └───cmake
+│       └───SampleRate
+└───share
+    └───doc
+        └───libsamplerate
+```
+Doing this allows us to integrate the minimal amount of information needed to build BTrack. If you look at the bin folder, you will see a samplerate.lib file. You have to delete this. The tar.xz file gives you a samplerate.lib but that is an import library for a DLL rather than a static library which we need. You can follow the instructions [here](https://github.com/libsndfile/libsamplerate/blob/master/docs/win32.md) to build libsamplerate. Once you do that, copy the generated samplerate.lib and paste it in the bin folder.
 
 
 Building BTrack
