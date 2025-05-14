@@ -4,8 +4,9 @@ set(BTRACK_LIBRARIES "")
 set(BTRACK_LIBRARY_DIRS "")
 
 # Add base include directories
-list(APPEND BTRACK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src)
-list(APPEND BTRACK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../libs/kiss_fft130)
+list(APPEND BTRACK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../src)
+set(KISS_FFT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libs/kiss_fft130)
+list(APPEND BTRACK_INCLUDE_DIRS ${KISS_FFT_DIR})
 set(BTRACK_LIBRARIES "")
 
 IF (WIN32)
@@ -65,13 +66,13 @@ else()
     message(FATAL_ERROR "Could not find libsamplerate library")
 endif()
 
-add_library (
-    BTrack STATIC
+add_library (BTrack STATIC
     BTrack.cpp
     BTrack.h
     OnsetDetectionFunction.cpp
     OnsetDetectionFunction.h
     CircularBuffer.h
+    ${KISS_FFT_DIR}/kiss_fft.c
 )
 
 source_group (Source src)
