@@ -20,7 +20,11 @@ if(NOT EXISTS "${LIBSAMPLERATE_DIR}/CMakeLists.txt")
     message(FATAL_ERROR "libsamplerate submodule not found. Please run 'git submodule update --init --recursive'")
 endif()
 
-add_subdirectory(${LIBSAMPLERATE_DIR} libsamplerate_build)
+if(NOT TARGET samplerate)
+    add_subdirectory(${LIBSAMPLERATE_DIR} libsamplerate_build)
+else()
+    message(STATUS "libsamplerate target already exists - skipping add_subdirectory")
+endif()
 
 list(APPEND BTRACK_LIBRARIES samplerate)
 list(APPEND BTRACK_INCLUDE_DIRS ${LIBSAMPLERATE_DIR}/include)
